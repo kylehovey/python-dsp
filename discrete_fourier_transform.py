@@ -16,6 +16,8 @@ if __name__ == "__main__":
     if show_waveform:
         plot_waveform(wave, duration, sample_rate)
 
+    save_waveform(wave, "pre-image.wav")
+
     dft_frequencies, dft_amplitudes = dft(wave(time))
 
     nyquist = len(time) // 2
@@ -25,6 +27,8 @@ if __name__ == "__main__":
     plot_spectrum(frequencies_recovered, amplitudes_recovered)
 
     wave_recovered = ifft(frequencies_recovered, amplitudes_recovered)
+
+    save_waveform(wave, "image.wav")
 
     if show_waveform:
         plot_waveform(wave_recovered, 0.1)
