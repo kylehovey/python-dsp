@@ -34,6 +34,10 @@ def wave_for(A, f):
 
     return lambda t: A * np.exp(1j * w * t)
 
+'''
+Transformation functions
+'''
+
 # Create a waveform given the frequency bins and corrsponding complex amplitudes
 def ifft(frequencies, amplitudes):
     def wave(t):
@@ -43,6 +47,16 @@ def ifft(frequencies, amplitudes):
         return np.sum(samples, axis=0).real
 
     return wave
+
+def dft(samples):
+    N = len(samples)
+
+    def maker(n, k):
+        return np.exp(-1j * 2 * np.pi * k * n / N)
+
+    A = np.fromfunction(maker, (N, N))
+
+    return np.arange(N), np.dot(A, samples)
 
 '''
 Output functions
@@ -58,5 +72,12 @@ def plot_waveform(wave, window, sample_rate=44100):
     plt.plot(window_samples, wave(window_samples))
     plt.xlabel("time (s)")
     plt.ylabel("amplitude")
+    plt.axis("tight")
+    plt.show()
+
+def plot_spectrum(frequencies, amplitudes):
+    plt.plot(frequencies, np.abs(amplitudes))
+    plt.xlabel("Wave number")
+    plt.ylabel("Absolute amplitude")
     plt.axis("tight")
     plt.show()
