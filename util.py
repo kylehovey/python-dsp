@@ -8,7 +8,7 @@ Functions for signal synthesis
 
 # Generate a uniformly sampled time axis of a given duration in seconds
 def time_axis(duration, sample_rate=44100):
-    sample_count = duration * sample_rate
+    sample_count = int(duration * sample_rate)
 
     return np.linspace(0, duration, sample_count)
 
@@ -68,7 +68,7 @@ def save_waveform(wave, file_name, duration=10, sample_rate=44100):
 
 # Plot a waveform visually
 def plot_waveform(wave, window, sample_rate=44100):
-    window_samples = np.linspace(0, window, sample_rate * window)
+    window_samples = time_axis(window, sample_rate)
     plt.plot(window_samples, wave(window_samples))
     plt.xlabel("time (s)")
     plt.ylabel("amplitude")
